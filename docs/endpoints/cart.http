@@ -1,0 +1,7 @@
+###
+# Create user
+POST {{url}}/users
+
+{
+  "email": "new@email.test"
+}
