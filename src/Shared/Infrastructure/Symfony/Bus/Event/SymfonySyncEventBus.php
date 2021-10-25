@@ -6,8 +6,8 @@ namespace Shared\Infrastructure\Symfony\Bus\Event;
 
 use Shared\Domain\Bus\Event\DomainEvent;
 use Shared\Domain\Bus\Event\EventBus;
+use Symfony\Component\Messenger\Exception\NoHandlerForMessageException;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Throwable;
 
 class SymfonySyncEventBus implements EventBus
 {
@@ -20,7 +20,7 @@ class SymfonySyncEventBus implements EventBus
         foreach ($events as $event) {
             try {
                 $this->bus->dispatch($event);
-            } catch (Throwable) {
+            } catch (NoHandlerForMessageException) {
             }
         }
     }
