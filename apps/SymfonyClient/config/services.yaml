@@ -27,6 +27,10 @@ services:
         arguments:
             $bus: '@query.bus'
 
+    Shared\Infrastructure\Symfony\Bus\Event\SymfonySyncEventBus:
+        arguments:
+            $bus: '@sync.event.bus'
+
     Shared\Infrastructure\Symfony\Controller\ApiExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onException }
@@ -38,6 +42,9 @@ services:
         Shared\Domain\Bus\Query\QueryHandler:
             tags:
                 - { name: messenger.message_handler, bus: query.bus }
+        Shared\Domain\Bus\Event\DomainEventSubscriber:
+            tags:
+                - { name: messenger.message_handler, bus: sync.event.bus }
 
     # Loads this specific normalizer to the serializer component
     property_normalizer:
@@ -51,4 +58,6 @@ framework:
         buses:
             command.bus:
             query.bus:
+            sync.event.bus:
+                default_middleware: allow_no_handlers
 
