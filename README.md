@@ -11,5 +11,8 @@ Go to `{PROJECT_FOLDER}/docs/endpoints` and you'll see a `cart.http` file contai
 
 ## Changelog
 - The application starts with a simple endpoint to simulate the user creation.
-
+- Once the user was created, we want to generate a coupon to greet the new user.
+  - This could be done by simply calling the `CouponGenerator` at the `CreateUser` service, but it creates a coupling between the coupon generation and the user creation (breaking the OCP in the process).
+  - We solve this problem by publishing the domain event `UserAdded` and letting the subscribers reacting to that action.
+  - In this first approach we use a `SyncEventBus` since it is easier to implement.
 
