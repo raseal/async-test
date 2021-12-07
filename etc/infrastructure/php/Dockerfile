@@ -13,7 +13,8 @@ RUN apk --update upgrade \
         opcache \
         intl \
         zip \
-        pdo_mysql
+        pdo_mysql \
+        sockets
 
 RUN pecl install xdebug
 
