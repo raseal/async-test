@@ -31,4 +31,9 @@ final class User extends AggregateRoot
     {
         return $this->user_email;
     }
+
+    public function changeEmail(UserEmail $user_email): void
+    {
+        $this->user_email = $user_email;
+    }
 }

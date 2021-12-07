@@ -2,3 +2,8 @@ user_create:
   path: /users
   controller: SymfonyClient\Controller\CreateUserController
   methods: [POST]
+
+user_change_email:
+  path: /users/{id}
+  controller: SymfonyClient\Controller\ChangeUserEmailController
+  methods: [PATCH]

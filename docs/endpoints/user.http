@@ -5,3 +5,11 @@ POST {{url}}/users
 {
   "email": "new@email.test"
 }
+
+###
+# Change user email
+PATCH {{url}}/users/{{id}}
+
+{
+  "email": "12345"
+}
