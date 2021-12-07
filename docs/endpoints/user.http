@@ -11,5 +11,5 @@ POST {{url}}/users
 PATCH {{url}}/users/{{id}}
 
 {
-  "email": "12345"
+  "email": "test@example.com"
 }

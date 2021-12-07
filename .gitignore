@@ -10,6 +10,10 @@
 /apps/SymfonyClient/var/
 ###< symfony/framework-bundle ###
 
+###> php-amqplib/rabbitmq-bundle ###
+/var
+###< php-amqplib/rabbitmq-bundle ###
+
 ###> phpunit/phpunit ###
 /build
 /phpunit.xml
