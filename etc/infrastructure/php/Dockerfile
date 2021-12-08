@@ -13,14 +13,19 @@ RUN apk --update upgrade \
         opcache \
         intl \
         zip \
-        pdo_mysql \
-        sockets
+        pdo_mysql
 
 RUN pecl install xdebug
 
+RUN apk add --no-cache rabbitmq-c-dev && \
+    mkdir -p /usr/src/php/ext/amqp && \
+    curl -fsSL https://pecl.php.net/get/amqp | tar xvz -C "/usr/src/php/ext/amqp" --strip 1 && \
+    docker-php-ext-install amqp
+
 RUN docker-php-ext-enable \
         opcache \
-        xdebug
+        xdebug \
+        amqp
 
 ENV PHP_IDE_CONFIG 'serverName=DockerApp'
 
