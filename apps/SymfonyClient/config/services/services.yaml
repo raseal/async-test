@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    ### Specific dependencies
+    TestCase\User\Application\Change\ChangeUserEmail:
+        class: TestCase\User\Application\Change\ChangeUserEmail
+        arguments:
+            $event_bus: '@event_bus.rabbitMQ'

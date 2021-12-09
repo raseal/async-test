@@ -30,11 +30,11 @@ services:
     volumes:
       - ./var/rabbitmq/:/var/lib/rabbitmq/
     environment:
-      RABBITMQ_DEFAULT_USER: rabbitmq
-      RABBITMQ_DEFAULT_PASS: rabbitmq
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWD}
     ports:
-      - 5672:5672
+      - 5672:${RABBITMQ_PORT}
       - 15672:15672
     expose:
-      - 5672
+      - ${RABBITMQ_PORT}
       - 15672
