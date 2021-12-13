@@ -47,12 +47,42 @@ services:
         Shared\Domain\Bus\Event\DomainEventSubscriber:
             tags:
                 - { name: messenger.message_handler, bus: sync.event.bus }
+                - 'domain.event.subscriber'
 
     # Loads this specific normalizer to the serializer component
     property_normalizer:
         class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
         tags:
             - { name: serializer.normalizer }
+
+#    # Define specific async event bus using Rabbit
+    rabbitMQ.connection:
+        class: Shared\Infrastructure\Symfony\Bus\Event\RabbitMQ\RabbitMQConnection
+        arguments:
+            - host: '%env(RABBITMQ_HOST)%'
+              port: '%env(RABBITMQ_PORT)%'
+              vhost: '%env(RABBITMQ_VHOST)%'
+              login: '%env(RABBITMQ_USER)%'
+              password: '%env(RABBITMQ_PASSWD)%'
+              read_timeout: 2
+              write_timeout: 2
+              connect_timeout: 5
+
+    event_bus.rabbitMQ:
+        class: Shared\Infrastructure\Symfony\Bus\Event\RabbitMQ\RabbitMQEventBus
+        arguments:
+            - '@rabbitMQ.connection'
+            - '%env(RABBITMQ_EXCHANGE)%'
+
+    Shared\Infrastructure\Symfony\Bus\Event\RabbitMQ\RabbitMQConfigurator:
+        arguments:
+            - '@rabbitMQ.connection'
+
+    SymfonyClient\CLI\RabbitMQConfiguratorCLI:
+        arguments:
+            - '@Shared\Infrastructure\Symfony\Bus\Event\RabbitMQ\RabbitMQConfigurator'
+            - '%env(RABBITMQ_EXCHANGE)%'
+            - !tagged domain.event.subscriber
 
 framework:
     messenger:
