@@ -35,5 +35,6 @@ final class User extends AggregateRoot
     public function changeEmail(UserEmail $user_email): void
     {
         $this->user_email = $user_email;
+        $this->record(UserEmailChanged::create($this));
     }
 }

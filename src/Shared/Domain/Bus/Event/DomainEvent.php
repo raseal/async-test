@@ -24,7 +24,7 @@ abstract class DomainEvent
         $this->occurred_on = $occurred_on ?? (new DateTimeImmutable())->format(DATE_ATOM);
     }
 
-    abstract public function eventName(): string;
+    abstract static public function eventName(): string;
 
     public function aggregateId(): string
     {

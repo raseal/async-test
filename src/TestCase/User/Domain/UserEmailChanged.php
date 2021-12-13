@@ -6,7 +6,7 @@ namespace TestCase\User\Domain;
 
 use Shared\Domain\Bus\Event\DomainEvent;
 
-final class UserAdded extends DomainEvent
+final class UserEmailChanged extends DomainEvent
 {
     private string $user_email;
 
@@ -27,7 +27,7 @@ final class UserAdded extends DomainEvent
 
     public static function eventName(): string
     {
-        return 'user.added';
+        return 'user.email.changed';
     }
 
     public function userEmail(): string
