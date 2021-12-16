@@ -78,10 +78,22 @@ services:
         arguments:
             - '@rabbitMQ.connection'
 
+    Shared\Infrastructure\Symfony\Bus\Event\RabbitMQ\RabbitMQDomainEventConsumer:
+        arguments:
+            $connection: '@rabbitMQ.connection'
+
     SymfonyClient\CLI\RabbitMQConfiguratorCLI:
         arguments:
             - '@Shared\Infrastructure\Symfony\Bus\Event\RabbitMQ\RabbitMQConfigurator'
             - '%env(RABBITMQ_EXCHANGE)%'
+            - !tagged domain.event.subscriber
+
+    Shared\Infrastructure\Symfony\Bus\Event\DomainEventMapping:
+        arguments:
+            - !tagged domain.event.subscriber
+
+    Shared\Infrastructure\Symfony\Bus\Event\DomainEventSubscriberLocator:
+        arguments:
             - !tagged domain.event.subscriber
 
 framework:
