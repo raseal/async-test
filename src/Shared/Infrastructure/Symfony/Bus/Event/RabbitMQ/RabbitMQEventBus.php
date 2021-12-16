@@ -6,6 +6,7 @@ namespace Shared\Infrastructure\Symfony\Bus\Event\RabbitMQ;
 
 use Shared\Domain\Bus\Event\DomainEvent;
 use Shared\Domain\Bus\Event\EventBus;
+use Shared\Infrastructure\Symfony\Bus\Event\DomainEventJsonSerializer;
 use const AMQP_NOPARAM;
 
 final class RabbitMQEventBus implements EventBus
@@ -30,7 +31,7 @@ final class RabbitMQEventBus implements EventBus
     private function publishEvent(DomainEvent $event): void
     {
         $this->connection->exchange($this->exchange_name)->publish(
-            '{"txt": "MENSAJEEE"}',
+            DomainEventJsonSerializer::serialize($event),
             $event->eventName(),
             AMQP_NOPARAM,
             [
