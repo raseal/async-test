@@ -8,16 +8,13 @@ use Shared\Domain\Bus\Event\DomainEvent;
 
 final class UserEmailChanged extends DomainEvent
 {
-    private string $user_email;
-
     public function __construct(
-        string $user_id,
-        string $user_email,
-        string $event_id = null,
-        string $occurred_on = null
+        private string $user_id,
+        private string $user_email,
+        private ?string $event_id = null,
+        private ?string $occurred_on = null
     ) {
         parent::__construct($user_id, $event_id, $occurred_on);
-        $this->user_email = $user_email;
     }
 
     public static function create(User $user):self
@@ -28,6 +25,28 @@ final class UserEmailChanged extends DomainEvent
     public static function eventName(): string
     {
         return 'user.email.changed';
+    }
+
+    static public function fromPrimitives(
+        string $aggregate_id,
+        array $body,
+        string $event_id,
+        string $occurred_on
+    ): DomainEvent {
+        return new self(
+            $aggregate_id,
+            $body['user_email'],
+            $event_id,
+            $occurred_on
+        );
+    }
+
+    public function toPrimitives(): array
+    {
+        return [
+            'id' => $this->user_id,
+            'user_email' => $this->user_email,
+        ];
     }
 
     public function userEmail(): string
