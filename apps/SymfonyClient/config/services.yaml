@@ -81,6 +81,8 @@ services:
     Shared\Infrastructure\Symfony\Bus\Event\RabbitMQ\RabbitMQDomainEventConsumer:
         arguments:
             $connection: '@rabbitMQ.connection'
+            $exchange_name: '%env(RABBITMQ_EXCHANGE)%'
+            $max_retries: '%env(RABBITMQ_MAX_RETRIES)%'
 
     SymfonyClient\CLI\RabbitMQConfiguratorCLI:
         arguments:
